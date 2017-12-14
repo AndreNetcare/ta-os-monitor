@@ -1,0 +1,17 @@
+{
+  "name": "ta-os-monitor",
+  "version": "1.0.0",
+  "description": "OS CPU and RAM monitor for selenium server and nodes",
+  "main": "ta-os-monitor-server.js",
+  "scripts": {
+    "test": "node ta-os-monitor-server.js"
+  },
+  "author": "André Gluderer",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.2",
+    "os-monitor": "^1.0.5",
+    "socket.io": "^2.0.4",
+    "windows-cpu": "^0.1.4"
+  }
+}

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+
+  <title>Activity Monitor</title>
+  <style>
+  
+  </style>
+  <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+crossorigin="anonymous">
+
+<link rel="stylesheet"
+href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+crossorigin="anonymous">
+
+</head>
+
+<body>
+
+<div class="container">
+  <h1>Server OS Monitor</h1>
+  <div style="background:#eee" class="">
+      <div class="col-md-4">
+          <h4>Memory</h4>
+          <canvas id="memoryChart" width="400" height="400"></canvas>
+      </div>
+
+      <div class="col-md-4">
+          <h4>Cpu load average</h4>
+          <canvas id="cpuusageChart" width="400" height="400"></canvas>
+      </div>
+  </div>
+</div>
+
+</body>
+<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.js"></script>
+<script src="ioCharts.js"></script>
+<script>
+    // Create SocketIO instance, connect
+
+    ngOnInit();
+
+    var socket = io();
+
+    socket.connect('https://localhost:3002', { autoConnect: true, secure: true, rejectUnauthorized: false}); 
+
+    // Add a connect listener
+    socket.on('connect',function() {
+      console.log('Client has connected to the server!');
+    });
+
+    socket.on('connected', function(connectData){
+      connected(connectData);
+    });
+    // Add a connect listener
+    socket.on('message',function(data) {
+      console.log('Received a message from the server!',data);
+    });
+    // Add a disconnect listener
+    socket.on('disconnect',function() {
+      console.log('The client has disconnected!');
+    });
+
+    socket.on('ping',function() {
+        console.log('ping');
+      });
+
+      socket.on('os-update',function(data) {
+        console.log('update' + data.freemem + " " + data.totalmem);
+        updateCharts(data)
+      });
+
+      socket.on('cpu-update',function(data) {
+        console.log('cpu-update ' + data);
+        updateCompCPUChart(data)
+      });
+
+      socket.on('cpu-java-update',function(data) {
+        console.log('cpu-java-update ' + data);
+        updateJavaCPUChart(data)
+      });
+
+    // Sends a message to the server via sockets
+    function sendMessageToServer(message) {
+      socket.send(message);
+    };
+
+   
+</script>
+</html>
