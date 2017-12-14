@@ -4,7 +4,8 @@
   "description": "OS CPU and RAM monitor for selenium server and nodes",
   "main": "ta-os-monitor-server.js",
   "scripts": {
-    "test": "node ta-os-monitor-server.js"
+    "test": "node ta-os-monitor-server.js",
+    "start" : "node ta-os-monitor-server.js"
   },
   "author": "André Gluderer",
   "license": "ISC",

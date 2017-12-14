@@ -2,9 +2,9 @@ var fs = require('fs');
 var app = require('express')();
 var express = require('express');
 //ssl cert and keys 
-/*
-var config = require('config.js')
-*/
+
+var config = require('./config')
+
 //https with ssl
 //var server = require('https').createServer(config.certs, app);
 //http for testing
