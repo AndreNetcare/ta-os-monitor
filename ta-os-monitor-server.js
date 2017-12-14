@@ -3,13 +3,10 @@ var app = require('express')();
 var express = require('express');
 //ssl cert and keys 
 /*
-var options = {
-     key: fs.readFileSync('C:/TA_framework/emb-rt-ta/sslcert/emb-rt-ta.netcare.de-domain.key'),
-    cert: fs.readFileSync('C:/TA_framework/emb-rt-ta/sslcert/emb-rt-ta.netcare.de_cert_single_11102017.crt')
-};
+var config = require('config.js')
 */
 //https with ssl
-//var server = require('https').createServer(options, app);
+//var server = require('https').createServer(config.certs, app);
 //http for testing
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
@@ -71,24 +68,29 @@ osm.on('monitor', function (monitorEvent) {
                 io.emit('cpu-java-update', 0);
                 }else{
                     console.log('javaLoad= ' + results.load  + '% ');
-                    io.emit('cpu-java-update', results.load);
+                    console.log(results);
+                    io.emit('cpu-java-update', results.load / results.found.length);
                 }
             
         });  
         //totalCPULoad();
-        //info();  
+        //info(); 
+        //javaCPULoad(); 
     }
     
 });
 
 function javaCPULoad(){
-    win_cpu.findLoad('java', function(error, results) {
-        if(error) {
-            //return console.log(error);
-        }
-       
-    
-    });
+    win_cpu.findLoad('java', function(error, results) {test(error, results)});
+}
+var done = 0;
+function test(error, result){
+    if(done == 2){
+
+        console.log("wuuuu");
+    }
+    console.log("what? " + result);
+    ++done;
 }
 
 function totalCPULoad(){
