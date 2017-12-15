@@ -6,7 +6,7 @@ var express = require('express');
 var config = require('./config')
 
 //https with ssl
-//var server = require('https').createServer(config.certs, app);
+//var server = require('https').createServer(config.certs_retail, app);
 //http for testing
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
