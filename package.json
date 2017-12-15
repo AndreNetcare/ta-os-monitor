@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "OS CPU and RAM monitor for selenium server and nodes",
   "main": "ta-os-monitor-server.js",
+  "config" : { "port" : "3002" },
   "scripts": {
     "test": "node ta-os-monitor-server.js",
     "start" : "node ta-os-monitor-server.js"

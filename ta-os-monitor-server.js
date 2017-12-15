@@ -123,4 +123,4 @@ function info(){
 }
 
 
-server.listen(3002);
+server.listen(process.env.npm_package_config_port);
