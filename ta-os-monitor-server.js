@@ -21,7 +21,7 @@ var win_cpu = require('windows-cpu');
 app.use(express.static(__dirname + '/public'));
 
 io.on('connection', function(){ 
-    console.log("dsgdfgfgdfhzd");
+    console.log("Connected to Client");
  });
 
  io.on('connect', function (socket) {
@@ -46,38 +46,52 @@ osm.start({
 
 // define handler that will always fire every cycle
 osm.on('monitor', function (monitorEvent) {
-    io.emit('os-update', monitorEvent);
-    //io.emit('cpu-update', win_cpu.totalLoad(function(error, results) {return results; }));
-    if(osm.os.platform() == 'win32'){
-        win_cpu.totalLoad(function(error, results) {
-            console.log('totalLoad= ' + results[0]  + '% ');
-            var averageCPULoad = 0;
-            if(results instanceof Array){
-                results.forEach((retult) => {
-                    averageCPULoad +=  retult;
-                });
-                averageCPULoad = averageCPULoad / results.length;
-            }else{
-                averageCPULoad = results;
-            }
-            io.emit('cpu-update', (averageCPULoad));
-        });
-        win_cpu.findLoad('java', function(error, results) {
-            if(error) {
-                console.log(' No Java Process Found.');
-                io.emit('cpu-java-update', 0);
+    try{
+        io.emit('os-update', monitorEvent);
+        //io.emit('cpu-update', win_cpu.totalLoad(function(error, results) {return results; }));
+        if(osm.os.platform() == 'win32'){
+            win_cpu.totalLoad(function(error, results) {
+                console.log('totalLoad= ' + results[0]  + '% ');
+                var averageCPULoad = 0;
+                if(results instanceof Array){
+                    results.forEach((retult) => {
+                        averageCPULoad +=  retult;
+                    });
+                    averageCPULoad = averageCPULoad / results.length;
+                }else{
+                    averageCPULoad = results;
+                }
+                io.emit('cpu-update', (averageCPULoad));
+            });
+            win_cpu.findLoad('java', function(error, results) {
+                if(error) {
+                    console.log(' No Java Process Found.');
+                    io.emit('cpu-java-update', 0);
                 }else{
                     console.log('javaLoad= ' + results.load  + '% ');
                     console.log(results);
-                    io.emit('cpu-java-update', results.load / results.found.length);
+                    var jLoadArray =[];
+                    results.found.forEach((jLoad) => {
+                        if(jLoad.load != 0){
+                            jLoadArray.push(jLoad.load);
+                        }
+                    });
+                    //add not null check for array so..
+                    if(jLoadArray.length == 0){
+                        io.emit('cpu-java-update', results.load);
+                    }else{
+                        io.emit('cpu-java-update', results.load / jLoadArray.length);
+                    }
                 }
             
-        });  
-        //totalCPULoad();
-        //info(); 
-        //javaCPULoad(); 
+            });  
+            //totalCPULoad();
+            //info(); 
+            //javaCPULoad(); 
+        }
+    }catch(error){
+        console.log('Error: ' + error);
     }
-    
 });
 
 function javaCPULoad(){

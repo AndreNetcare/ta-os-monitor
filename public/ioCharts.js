@@ -25,6 +25,7 @@ var doughnutGraphData = {
 this.memChart  = new Chart(ctx, {
     type: 'doughnut',
     data: doughnutGraphData,
+    maintainAspectRatio: true,
     options: {}
 });
 
@@ -46,6 +47,7 @@ var cpuLoadGraphData = {
   this.cpuChart = new Chart(ctx2, {
     type: 'line',
     data: cpuLoadGraphData,
+    maintainAspectRatio: true,
     options: {
       scales: {
         yAxes: [{
