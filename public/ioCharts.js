@@ -1,16 +1,53 @@
 var memChart = null;
 var cpuChart = null;
+var memBarChart = null;
 
 var cpuType = '';
 var noOfCpu = 0;
 
 var ctx = document.getElementById('memoryChart');
 var ctx2 = document.getElementById('cpuusageChart');
+var ctx3 = document.getElementById('memoryStackedBarChart');
+
+
+
 
 
 
 // And for a doughnut chart
 function ngOnInit() {
+
+var memBarChartData = {
+  datasets: [{
+    label: 'Free Memory',
+    data: [],
+    backgroundColor: '#36a2eb',
+  },{ 
+    label: "Used Memory",
+    data: [],
+    backgroundColor: "#ff6384",
+  }],
+  labels: [],
+  };
+
+this.memBarChart = new Chart(ctx3, {
+    type: 'bar',
+    data: memBarChartData,
+    options: {
+      scales: {
+        xAxes: [{ stacked: true }],
+        yAxes: [{ stacked: true, display: true,ticks: {
+                                                  beginAtZero: true,
+                                                  //max: 100
+                                                  callback: function(label, index, labels) {
+                                                    return formatBytes(label, 2);
+                                                          }
+                                                    }
+         }]
+      }
+    }
+});
+  
 var doughnutGraphData = {
     datasets: [{
       data: [1, 0],
@@ -129,6 +166,32 @@ function updateCompCPUChart(event){
   
   cpuChart.update(0);
     }
+
+
+function updateMemBarChart(event){
+  
+    //memBarChart.options.scales.yAxes.max = event.totalmem;
+      
+      if (  memBarChart.data.datasets[0].data.length > 5) {
+        memBarChart.data.labels.shift();
+        memBarChart.data.datasets[0].data.shift();
+        memBarChart.data.datasets[1].data.shift();
+      }
+      var d = new Date();
+      memBarChart.data.labels.push('' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds());
+      //memBarChart.data.datasets[0].data.label.push(d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds());
+      memBarChart.data.datasets[0].label = ('Free: ' + formatBytes(event.freemem, 2));
+      
+      memBarChart.data.datasets[0].backgroundColor = '#36a2eb';
+      memBarChart.data.datasets[0].data.push(event.freemem);
+
+      memBarChart.data.datasets[1].label = ('Used: ' + formatBytes(event.totalmem - event.freemem, 2));
+      
+      memBarChart.data.datasets[1].backgroundColor = '#ff6384';
+      memBarChart.data.datasets[1].data.push(event.totalmem - event.freemem);
+    
+      memBarChart.update(0);
+}
     
       function formatBytes(bytes, decimals){
         if (bytes === 0) {
