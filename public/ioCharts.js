@@ -155,6 +155,7 @@ var cpuLoadGraphData = {
             cpuTotalload += event.loadavg[0];
             cpuIdle += (100 - event.loadavg[0]);
             cpuJava += 0;
+            updateCount++;
           });
 
           cpuChart.update(0);
