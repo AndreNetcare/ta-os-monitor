@@ -158,6 +158,7 @@ var cpuLoadGraphData = {
           });
 
           cpuChart.update(0);
+          updateCpuPolarChart();
         }
 
 }
