@@ -148,10 +148,10 @@ var cpuLoadGraphData = {
         //check if all cpu load averages are zero
         if(event.loadavg[0] != 0 && event.loadavg[1] != 0 && event.loadavg[2] != 0){
           cpuChart.data.datasets.forEach((dataset) => {
-            if ( dataset.data.length > 9) {
+            if ( dataset.data.length > 5) {
               dataset.data.shift();
             }
-            dataset.data.push(event.loadavg[0] * 100);
+            dataset.data.push(event.loadavg[0]);
           });
 
           cpuChart.update(0);
