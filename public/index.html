@@ -26,20 +26,27 @@ crossorigin="anonymous">
 <div class="container">
   <h1>Server OS Monitor</h1>
   <div style="background:#eee" class="">
+      <div class="row">
       <div class="col-md-4">
-          <h4>Memory</h4>
+          <h4>Memory </h4>
           <canvas id="memoryStackedBarChart" width="400" height="400"></canvas>
       </div>
 
       <div class="col-md-4">
-        <h4>Memory</h4>
+        <h4>Memory Total</h4>
         <canvas id="memoryChart" width="400" height="400"></canvas>
       </div>
-
+      </div>
+      <div class="row">
       <div class="col-md-4">
           <h4>Cpu load average</h4>
           <canvas id="cpuusageChart" width="400" height="400"></canvas>
       </div>
+      <div class="col-md-4">
+          <h4>Cpu Workload Overview</h4>
+          <canvas id="cpuusagePolar" width="400" height="400"></canvas>
+      </div>
+    </div>
   </div>
 </div>
 
