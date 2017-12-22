@@ -152,6 +152,9 @@ var cpuLoadGraphData = {
               dataset.data.shift();
             }
             dataset.data.push(event.loadavg[0]);
+            cpuTotalload += event.loadavg[0];
+            cpuIdle += (100 - event.loadavg[0]);
+            cpuJava += 0;
           });
 
           cpuChart.update(0);
