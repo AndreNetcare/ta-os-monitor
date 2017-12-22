@@ -87,7 +87,7 @@ crossorigin="anonymous">
       });
 
       socket.on('os-update',function(data) {
-        console.log('update' + data.freemem + " " + data.totalmem);
+        console.log('update' + data.freemem + " " + data.totalmem + " cpuload: " + data.loadavg[0]);
         updateCharts(data)
         updateMemBarChart(data);
       });
